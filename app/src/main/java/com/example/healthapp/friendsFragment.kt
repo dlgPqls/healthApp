@@ -1,17 +1,17 @@
 package com.example.healthapp
 
+import android.location.GnssAntennaInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.text.FieldPosition
 
 class friendsFragment : Fragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +33,17 @@ class friendsFragment : Fragment() {
         )
         val rv_profile = getView()?.findViewById<RecyclerView>(R.id.rv_profile)
         rv_profile?.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rv_profile?.setHasTransientState(true)
-        rv_profile?.adapter = profileAdapter(profilList)
+        rv_profile?.setHasFixedSize(true)
+
+        var adapter = profileAdapter(profilList)
+        rv_profile?.adapter = adapter
+
+        adapter.setOnItemClickListener(object : profileAdapter.onItemClickListener{
+            override fun onItemClilck(position: Int) {
+                Toast.makeText(requireContext(),"${profilList[position].name}",Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
     }
 

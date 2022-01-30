@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_drinkamount"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- # Main Layout # -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Top Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:text="오늘의 수분 섭취량"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#3d95c9"
+                android:textSize="25dp" />
+
+        </RelativeLayout>
+
+        <!-- Body Layout -->
+        <RelativeLayout
+            android:id="@+id/layout_body"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5">
+
+            <LinearLayout
+                android:id="@+id/drinkamount_layout_divider01"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#2e3241"
+                android:orientation="horizontal" />
+
+
+            <TextView
+                android:id="@+id/drinkamount_tv03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/drinkamount_layout_divider01"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="23dp"
+                android:gravity="end"
+                android:scrollbars="vertical"
+                android:text="목표 섭취량"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#3d95c9"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/drinkamount_tv_goal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/drinkamount_tv03"
+                android:layout_marginTop="11dp"
+                android:layout_marginRight="23dp"
+                android:gravity="end"
+                android:text="2000 ml"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#2e3241"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/item_dailyrecord_imv_main"
+                android:layout_width="346dp"
+                android:layout_height="313dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="79dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/waterdrop" />
+
+
+        </RelativeLayout>
+
+        <!-- Bottom Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#2e3241" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:id="@+id/drinkamount_tv01"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:scrollbars="vertical"
+                        android:text="물 섭취 기록하기"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="#3d95c9"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/drinkamount_tv_requireamount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/drinkamount_tv01"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#2e3241"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/drinkamount_tv_requireamount2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/drinkamount_tv01"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="52dp"
+                        android:layout_marginEnd="0dp"
+                        android:text=""
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#2e3241"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/btn_a"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="241dp"
+                            android:layout_marginTop="53dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="운동탭으로이동"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

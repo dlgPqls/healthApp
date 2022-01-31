@@ -17,4 +17,3 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 }
-        }

@@ -1,6 +1,9 @@
 package com.example.healthapp
 
+import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +12,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        class myDBHelper(context: Context) : SQLiteOpenHelper(context,"subTBL",null,2){
+            override fun onCreate(db: SQLiteDatabase?) {
+                db!!.execSQL("CREATE TABLE subTBL (RUN INTEAGER, WATER INTEAGER);")
+            }
+
+            override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
+                db!!.execSQL("DROP TABLE IF EXISTS subTBL")
+                onCreate(db)
+            }
+
+        }
 
         var bottom = findViewById<BottomNavigationView>(R.id.bottom)
 

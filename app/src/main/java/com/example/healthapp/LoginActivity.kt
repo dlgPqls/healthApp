@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 
+
 class LoginActivity : AppCompatActivity() {
     lateinit var secondIntent: Button
     lateinit var mainIntent: Button

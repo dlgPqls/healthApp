@@ -12,6 +12,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_join.*
 
 
+
 class JoinActivity : AppCompatActivity() {
 
     lateinit var Name : EditText

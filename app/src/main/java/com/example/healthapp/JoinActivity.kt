@@ -21,7 +21,6 @@ class JoinActivity : AppCompatActivity() {
 
     lateinit var dbManager : DBManager
     lateinit var sqlitedb : SQLiteDatabase
-    lateinit var subManager : SubManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +32,16 @@ class JoinActivity : AppCompatActivity() {
         Register = findViewById(R.id.btn_joinregister)
 
         dbManager = DBManager(this,"guruTBL",null,2)
-        subManager = SubManager(this,"subTBL",null,2)
+
 
         Register.setOnClickListener {
             var str_name : String = Name.text.toString()
             var str_pw : String = PW.text.toString()
+            var run : Int = 60
+            var water : Int = 10
 
             sqlitedb = dbManager.writableDatabase
-            sqlitedb.execSQL("INSERT INTO guruTBL VALUES('" +str_name+"', '" +str_pw+"')")
+            sqlitedb.execSQL("INSERT INTO guruTBL VALUES('" +str_name+"', '" +str_pw+"','" +run+"','" +water+"')")
             sqlitedb.close()
 
             val intent = Intent(this,LoginActivity::class.java)

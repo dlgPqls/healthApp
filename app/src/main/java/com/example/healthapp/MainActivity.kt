@@ -13,18 +13,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        class myDBHelper(context: Context) : SQLiteOpenHelper(context,"subTBL",null,2){
-            override fun onCreate(db: SQLiteDatabase?) {
-                db!!.execSQL("CREATE TABLE subTBL (RUN INTEAGER, WATER INTEAGER);")
-            }
-
-            override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-                db!!.execSQL("DROP TABLE IF EXISTS subTBL")
-                onCreate(db)
-            }
-
-        }
-
         var bottom = findViewById<BottomNavigationView>(R.id.bottom)
 
         bottom.run {

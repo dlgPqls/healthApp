@@ -19,10 +19,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var name : EditText
     lateinit var pw : EditText
     lateinit var database: SQLiteDatabase
-    lateinit var sql : String
-    lateinit var cursor : Cursor
-    lateinit var str_name : String
-    lateinit var str_pw : String
+    lateinit var database1: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,18 +34,14 @@ class LoginActivity : AppCompatActivity() {
         dbManager = DBManager(this,"guruTBL",null,2)
         database = dbManager.writableDatabase
 
-
         secondIntent.setOnClickListener {
             var intent = Intent(this,JoinActivity::class.java)
             startActivity(intent)
         }
 
         mainIntent.setOnClickListener {
-            var intent = Intent(this,MainActivity::class.java)
-
+                var intent = Intent(this,MainActivity::class.java)
                 startActivity(intent)
-
-
             }
         }
     }

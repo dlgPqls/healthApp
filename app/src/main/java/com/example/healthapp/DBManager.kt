@@ -17,3 +17,4 @@ class DBManager(context: Context?, name: String?, factory: SQLiteDatabase.Cursor
 
 }
 
+

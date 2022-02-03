@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import kotlinx.android.synthetic.main.list_item.*
 
 class friendsPageActivity : AppCompatActivity() {
 
@@ -16,7 +15,7 @@ class friendsPageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_friends)
+        setContentView(R.layout.activity_friends_page)
 
         btnLV = findViewById(R.id.btnLV)
         friendName = findViewById(R.id.freindsName)
@@ -24,8 +23,8 @@ class friendsPageActivity : AppCompatActivity() {
         fwater = findViewById(R.id.fwater)
 
         friendName.text = intent.getStringExtra("fName")
-        fwork.text = intent.getStringExtra("fwork")+"%"
-        fwater.text = intent.getStringExtra("fwater")+"%"
+        fwork.text = intent.getStringExtra("fwork")+"/목표"
+        fwater.text = intent.getStringExtra("fwater")+"/목표"
 
         btnLV.setOnClickListener {
             onBackPressed()

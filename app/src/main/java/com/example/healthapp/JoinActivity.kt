@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_join.*
 
 
 
@@ -18,6 +17,7 @@ class JoinActivity : AppCompatActivity() {
     lateinit var Name : EditText
     lateinit var PW : EditText
     lateinit var Register : Button
+    lateinit var btn_joinback:Button
 
     lateinit var dbManager : DBManager
     lateinit var sqlitedb : SQLiteDatabase
@@ -29,6 +29,7 @@ class JoinActivity : AppCompatActivity() {
 
         Name = findViewById(R.id.join_name)
         PW = findViewById(R.id.join_pw)
+        btn_joinback = findViewById(R.id.btn_joinback)
 
         Register = findViewById(R.id.btn_joinregister)
 

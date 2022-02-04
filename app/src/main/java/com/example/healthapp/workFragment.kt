@@ -1,6 +1,7 @@
 package com.example.healthapp
 
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.appcompat.app.AppCompatActivity
@@ -34,19 +35,12 @@ import com.github.mikephil.charting.utils.ColorTemplate;
  * create an instance of this fragment.
  */
 class workFragment : Fragment() {
-    private var per = 1;
-    private var workTime : Int = 0
-    private var many : Int = 10
-
     lateinit var workPercent : TextView
     lateinit var workText : TextView
     lateinit var editHour: EditText
     lateinit var editMinute: EditText
     lateinit var workButton: Button
     lateinit var mainActivity: MainActivity
-
-    lateinit var myHelper : myDBHelper
-    lateinit var sqlDB: SQLiteDatabase
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -63,11 +57,39 @@ class workFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var dbManager: DBManager
+        var subManager: SubManager
+        var wdatabase : SQLiteDatabase
+        var database : SQLiteDatabase
+        var cursor1: Cursor
+        var cursor2 : Cursor
+        var todaytime = 1
+        var goal = 5
+
+        dbManager = DBManager(requireContext(),"guruTBL",null,2)
+        subManager = SubManager(requireContext(),"subTBL",null,2)
+        wdatabase = dbManager.writableDatabase
+        database = subManager.writableDatabase
+        var id = arguments?.getString("ID")
+        cursor1 = database.rawQuery("SELECT * FROM subTBL WHERE NAME = '" + id + "';",null)
+        cursor2 = wdatabase.rawQuery("SELECT * FROM guruTBL WHERE gName = '" + id + "';",null)
+
         workPercent = view.findViewById(R.id.workPercent)
         workText = view.findViewById(R.id.workText)
         editHour = view.findViewById(R.id.editHour)
         editMinute = view.findViewById(R.id.editMinute)
         workButton = view.findViewById(R.id.workButton)
+
+        if(cursor1.moveToNext()){
+            todaytime = cursor1.getInt(cursor1.getColumnIndex("RUN"))
+        }
+        if(cursor2.moveToNext()){
+            goal = cursor2.getInt(cursor2.getColumnIndex("RUN"))
+        }
+        cursor1.close()
+        cursor2.close()
+
+        var per = ((todaytime.toDouble()/goal) * 100).toInt()
         var barChart: BarChart = view.findViewById(R.id.chart2) // barChart 생성
 
         val entries = ArrayList<BarEntry>()
@@ -127,14 +149,15 @@ class workFragment : Fragment() {
 
         //로그인페이지에서 회원 id 값 intent로 받아와서 sql문으로 넘기면 될 듯. 해당 id의 운동량 목표, 물 섭취량 목표 행에 값 넣기
 
-        myHelper = myDBHelper(mainActivity)
-
         workButton.setOnClickListener{
-            workTime = (editHour.text.toString().toInt()*60) + (editMinute.text.toString().toInt())
-            sqlDB = myHelper.writableDatabase
-            sqlDB.execSQL("UPDATE mainTBL SET mWork ='"+ workTime + "' WHERE mName = + 'id';"  )
-            sqlDB.close()
+            var workTime = (editHour.text.toString().toInt()*60) + (editMinute.text.toString().toInt())
+            wdatabase = dbManager.writableDatabase
+            wdatabase.execSQL("UPDATE mainTBL SET RUN ='"+ workTime + "' WHERE gName = '" + id + "';"  )
+            wdatabase.close()
         }
+
+        mainActivity.findViewById<TextView>(R.id.workPercent).text = "$per"
+        mainActivity.findViewById<TextView>(R.id.workText).text = "오늘 하루 " + "$todaytime" +"분 운동했어요"
     }
 
     inner class MyXAxisFormatter : ValueFormatter() {
@@ -144,21 +167,9 @@ class workFragment : Fragment() {
         }
     }
 
-    class myDBHelper(context: Context) : SQLiteOpenHelper(context, "groupDB", null, 1){
-        override fun onCreate(db: SQLiteDatabase?) {
-            db!!.execSQL("CREATE TABLE mainTBL (mName CHAR(20) PRIMARY KEY, mWork Integer, mWater Integer);")
-        }
-
-        override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-            db!!.execSQL("DROP TABLE IF EXISTS mainTBL")
-            onCreate(db)
-        }
-    }
-
     override fun onStart() {
         super.onStart()
-        mainActivity.findViewById<TextView>(R.id.workPercent).text = "$per"
-        mainActivity.findViewById<TextView>(R.id.workText).text = "오늘 하루 " + "$many" +"분 운동했어요"
+
     }
 
     override fun onCreateView(

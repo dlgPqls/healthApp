@@ -18,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var name : EditText
     lateinit var pw : EditText
     lateinit var database: SQLiteDatabase
-    lateinit var database1: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         mainIntent.setOnClickListener {
+                var id = name.text.toString()
                 var intent = Intent(this,MainActivity::class.java)
+                intent.putExtra("Name",id)
                 startActivity(intent)
             }
         }

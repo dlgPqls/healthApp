@@ -1,6 +1,7 @@
 package com.example.healthapp
 
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.appcompat.app.AppCompatActivity
@@ -34,17 +35,13 @@ class waterFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     lateinit var barChart: BarChart
     private val barData = ArrayList<BarData>()
-    private var per = 10;
-    private var cup = 2;
+
     lateinit var mainActivity: MainActivity
 
     lateinit var waterPercent : TextView
     lateinit var waterText : TextView
     lateinit var editAmount: EditText
     lateinit var waterButton: Button
-
-    lateinit var myHelper : workFragment.myDBHelper
-    lateinit var sqlDB: SQLiteDatabase
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,10 +50,39 @@ class waterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var dbManager: DBManager
+        var subManager: SubManager
+        var wdatabase : SQLiteDatabase
+        var database : SQLiteDatabase
+        var cursor1: Cursor
+        var cursor2 : Cursor
+        var today = 1
+        var goal = 5
+
+        dbManager = DBManager(requireContext(),"guruTBL",null,2)
+        subManager = SubManager(requireContext(),"subTBL",null,2)
+        wdatabase = dbManager.writableDatabase
+        database = subManager.writableDatabase
+        var id = arguments?.getString("ID")
+        cursor1 = database.rawQuery("SELECT * FROM subTBL WHERE NAME = '" + id + "';",null)
+        cursor2 = wdatabase.rawQuery("SELECT * FROM guruTBL WHERE gName = '" + id + "';",null)
+
         waterPercent = view.findViewById(R.id.waterPercent)
         waterText = view.findViewById(R.id.waterText)
         editAmount = view.findViewById(R.id.editAmount)
         waterButton = view.findViewById(R.id.waterButton)
+
+        if(cursor1.moveToNext()){
+            today = cursor1.getInt(cursor1.getColumnIndex("WATER"))
+        }
+        if(cursor2.moveToNext()){
+            goal = cursor2.getInt(cursor2.getColumnIndex("WATER"))
+        }
+        cursor1.close()
+        cursor2.close()
+
+        var per = ((today.toDouble()/goal) * 100).toInt()
         var barChart: BarChart = view.findViewById(R.id.chart1) // barChart 생성
 
         val entries = ArrayList<BarEntry>()
@@ -114,15 +140,14 @@ class waterFragment : Fragment() {
             invalidate()
         }
 
-        //val intent = intent
-        //id = intent.getStringExtra("intent_name").toString()
-        myHelper = workFragment.myDBHelper(mainActivity)
-
         waterButton.setOnClickListener{
-            sqlDB = myHelper.writableDatabase
-            sqlDB.execSQL("UPDATE mainTBL SET mWater ='"+ editAmount.text.toString().toInt() + "' WHERE mName = + 'id';"  )
-            sqlDB.close()
+            wdatabase = dbManager.writableDatabase
+            wdatabase.execSQL("UPDATE guruTBL SET WATER ='"+ editAmount.text.toString().toInt() + "' WHERE gName = '" + id + "';"  )
+            dbManager.close()
         }
+
+        mainActivity.findViewById<TextView>(R.id.waterPercent).text = "$per"
+        mainActivity.findViewById<TextView>(R.id.waterText).text = "오늘 하루 " + "$today" +"잔의 물을 마셨어요"
     }
 
     inner class MyXAxisFormatter : ValueFormatter() {
@@ -134,8 +159,8 @@ class waterFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        mainActivity.findViewById<TextView>(R.id.waterPercent).text = "$per"
-        mainActivity.findViewById<TextView>(R.id.waterText).text = "오늘 하루 " + "$cup" +"잔의 물을 마셨어요"
+//        mainActivity.findViewById<TextView>(R.id.waterPercent).text = today / goal
+//        mainActivity.findViewById<TextView>(R.id.waterText).text = "오늘 하루 " + "$cup" +"잔의 물을 마셨어요"
     }
 
 

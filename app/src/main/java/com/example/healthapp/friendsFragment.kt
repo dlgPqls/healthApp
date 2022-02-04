@@ -1,33 +1,21 @@
 package com.example.healthapp
 
+import android.content.Intent
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import android.location.GnssAntennaInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
+//import androidx.fragment.app.FragmentContainerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.text.FieldPosition
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [friendsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class friendsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,23 +25,57 @@ class friendsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_friends, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment friendsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            friendsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //DB연동
+        var profilList = arrayListOf<profiles>()
+        var dbManager: DBManager
+        var database : SQLiteDatabase
+        var cursor: Cursor
+
+        dbManager = DBManager(requireContext(),"guruTBL",null,2)
+        database = dbManager.readableDatabase
+        cursor = database.rawQuery("SELECT * FROM guruTBL;", null)
+
+        var name:String
+        var work:Int
+        var water:Int
+        var objWork:Int
+        var objWater:Int
+
+        while (cursor.moveToNext()){
+            name = cursor.getString(0).toString()
+            objWater = cursor.getInt(3)
+            objWork = cursor.getInt(2)
+            water = 10
+            work = 60
+            profilList.add(profiles(name,water, work,objWork,objWater))
+        }
+
+        val rv_profile = getView()?.findViewById<RecyclerView>(R.id.rv_profile)
+        rv_profile?.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rv_profile?.setHasFixedSize(true)
+
+        var adapter = profileAdapter(profilList)
+        rv_profile?.adapter = adapter
+
+        adapter.setOnItemClickListener(object : profileAdapter.onItemClickListener{
+            override fun onItemClilck(position: Int) {
+                //intent 만들어서 넘기기
+                val intent = Intent(activity,friendsPageActivity::class.java)
+
+                intent.putExtra("fName",profilList[position].name)
+                intent.putExtra("fwater",profilList[position].water.toString())
+                intent.putExtra("fwork",profilList[position].work.toString())
+                intent.putExtra("objWork",profilList[position].objWork.toString())
+                intent.putExtra("objWater",profilList[position].objWater.toString())
+
+                startActivity(intent)
             }
+
+        })
+
     }
+
 }

@@ -20,6 +20,7 @@ class JoinActivity : AppCompatActivity() {
     lateinit var dbManager : DBManager
     lateinit var sqlitedb : SQLiteDatabase
     lateinit var subManager : SubManager
+    lateinit var sqlitesubdb : SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +42,12 @@ class JoinActivity : AppCompatActivity() {
             var water : Int = 10
 
             sqlitedb = dbManager.writableDatabase
-            sqlitedb.execSQL("INSERT INTO guruTBL VALUES('" +str_name+"', '" +str_pw+"','"+run+"','"+water+"')")
+            sqlitesubdb = subManager.writableDatabase
+            sqlitedb.execSQL("INSERT INTO guruTBL VALUES('" +str_name+"', '" +str_pw+"','"+run+"','"+water+"');")
+            sqlitesubdb.execSQL("INSERT INTO subTBL VALUES('','"+str_name+"',0,0)")
+
             sqlitedb.close()
+            sqlitesubdb.close()
 
             val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
@@ -52,7 +57,6 @@ class JoinActivity : AppCompatActivity() {
 
         Back.setOnClickListener {
             finish()
-
         }
 
     }

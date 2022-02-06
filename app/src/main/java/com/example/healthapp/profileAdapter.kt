@@ -33,8 +33,9 @@ class profileAdapter(val profileList: ArrayList<profiles>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: profileAdapter.CustomViewHolder, position: Int) {
         holder.name.text = profileList.get(position).name
-        holder.water.text = ((profileList.get(position).water/profileList.get(position).objWater)*100).toString()+"%"
-        holder.work.text = ((profileList.get(position).work/profileList.get(position).objWork)*100).toString()+"%"
+
+        holder.water.text = (profileList.get(position).water.toDouble() / profileList.get(position).objWater.toDouble() * 100.0).toInt().toString()+"%"
+        holder.work.text = (profileList.get(position).work.toDouble() / profileList.get(position).objWork.toDouble() * 100.0).toInt().toString()+"%"
 
     }
 

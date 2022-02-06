@@ -39,8 +39,8 @@ class friendsFragment : Fragment() {
         cursor = database.rawQuery("SELECT * FROM guruTBL;", null)
 
         var name:String
-        var work:Int
-        var water:Int
+        var work:Int = 40
+        var water:Int = 9
         var objWork:Int
         var objWater:Int
 
@@ -48,8 +48,8 @@ class friendsFragment : Fragment() {
             name = cursor.getString(0).toString()
             objWater = cursor.getInt(3)
             objWork = cursor.getInt(2)
-            water = 10
-            work = 60
+            water -= 1
+            work -= 2
             profilList.add(profiles(name,water, work,objWork,objWater))
         }
 

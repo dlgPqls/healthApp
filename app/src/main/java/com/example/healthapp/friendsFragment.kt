@@ -34,13 +34,20 @@ class friendsFragment : Fragment() {
         var database : SQLiteDatabase
         var cursor: Cursor
 
+        var subManager:SubManager
+        var subDatabase:SQLiteDatabase
+        var subCursor:Cursor
+
         dbManager = DBManager(requireContext(),"guruTBL",null,2)
         database = dbManager.readableDatabase
         cursor = database.rawQuery("SELECT * FROM guruTBL;", null)
 
+        subManager = SubManager(requireContext(),"subTBL",null,2)
+        subDatabase = subManager.readableDatabase
+
         var name:String
-        var work:Int = 40
-        var water:Int = 9
+        var work:Int
+        var water:Int
         var objWork:Int
         var objWater:Int
 
@@ -48,8 +55,9 @@ class friendsFragment : Fragment() {
             name = cursor.getString(0).toString()
             objWater = cursor.getInt(3)
             objWork = cursor.getInt(2)
-            water -= 1
-            work -= 2
+            subCursor = subDatabase.rawQuery("SELECT * FROM subTBL WHERE NAME = '" + id + "';",null)
+            water = subCursor.getInt(3)
+            work = subCursor.getInt(2)
             profilList.add(profiles(name,water, work,objWork,objWater))
         }
 

@@ -46,8 +46,8 @@ class friendsFragment : Fragment() {
         subDatabase = subManager.readableDatabase
 
         var name:String
-        var work:Int
-        var water:Int
+        var work:Int = 40
+        var water:Int = 5
         var objWork:Int
         var objWater:Int
 
@@ -56,8 +56,6 @@ class friendsFragment : Fragment() {
             objWater = cursor.getInt(3)
             objWork = cursor.getInt(2)
             subCursor = subDatabase.rawQuery("SELECT * FROM subTBL WHERE NAME = '" + name + "';",null)
-            water = subCursor.getInt(3)
-            work = subCursor.getInt(2)
             profilList.add(profiles(name,water, work,objWork,objWater))
         }
 

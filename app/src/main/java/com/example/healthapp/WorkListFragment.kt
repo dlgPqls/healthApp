@@ -1,18 +1,23 @@
 package com.example.healthapp
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.healthapp.R
+import com.example.healthapp.MyCustomDialog
+import com.example.healthapp.MyCustomDialogInterface
 import com.example.healthapp.RecordAdapter
+import com.example.healthapp.Record
 import com.example.healthapp.RecordViewModel
 import com.example.healthapp.databinding.FragmentWorkListBinding
+import java.util.*
 
-class DoneListFragment : Fragment() {
+class WorkListFragment : Fragment(), MyCustomDialogInterface {
 
     private var binding : FragmentWorkListBinding? = null
     private val recordViewModel: RecordViewModel by viewModels() // 뷰모델 연결
@@ -22,22 +27,46 @@ class DoneListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+//        // 상단 메뉴 추가
+//        setHasOptionsMenu(true)
         // 뷰바인딩
-        binding = FragmentWorkListBinding.inflate(inflater,container,false)
+        binding = FragmentWaterListBinding.inflate(inflater,container,false)
 
-        // 아이템에 아이디를 설정해줌 (깜빡이는 현상방지)
         adapter.setHasStableIds(true)
 
-        // 아이템을 가로로 하나씩 보여주고 어댑터 연결
-        binding!!.doneRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL,false)
-        binding!!.doneRecyclerView.adapter = adapter
+        binding!!.recordRecyclerView.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+        binding!!.recordRecyclerView.adapter = adapter
 
-        // 리스트 관찰하여 변경시 어댑터에 전달해줌
-        recordViewModel.readDoneData.observe(viewLifecycleOwner, Observer {
+        recordViewModel.readAllData.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
 
+        binding!!.dialogButton.setOnClickListener {
+            onFabClicked()
+        }
+
         return binding!!.root
+    }
+
+    private fun onFabClicked(){
+        val myCustomDialog = MyCustomDialog(activity!!,this)
+        myCustomDialog.show()
+    }
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
+    }
+
+    override fun onOkButtonClicked(content: String) {
+
+        val cal = Calendar.getInstance()
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH) + 1
+        val day = cal.get(Calendar.DATE)
+
+        val record = Record(0,false,content, year, month, day)
+        recordViewModel.addRecord(record)
+        Toast.makeText(activity,"추가", Toast.LENGTH_SHORT).show()
     }
 }

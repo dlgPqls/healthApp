@@ -24,26 +24,21 @@ class UpdateDialog(context : Context, updateDialogInterface : UpdateDialogInterf
         var cancelButton : Button = findViewById(R.id.cancelButton)
         var recordEditView : EditText = findViewById(R.id.recordEditView)
 
-        // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         okButton.setOnClickListener {
             val content = recordEditView.text.toString()
 
-            // 입력하지 않았을 때
             if ( TextUtils.isEmpty(content)){
                 Toast.makeText(context, "수정할 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
 
-            // 입력 창이 비어 있지 않을 때
             else{
-                // 메모를 수정해줌
                 updateDialogInterface.onOkButtonClicked(content)
                 dismiss()
             }
         }
 
-        // 취소 버튼 클릭 시 종료
         cancelButton.setOnClickListener { dismiss()}
     }
 }

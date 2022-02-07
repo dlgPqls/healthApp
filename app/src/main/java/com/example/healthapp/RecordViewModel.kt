@@ -15,7 +15,6 @@ class RecordViewModel(application: Application) : AndroidViewModel(application) 
     val readDoneData : LiveData<List<Record>>
     private val repository : RecordRepository
 
-    // get set
     private var _currentData = MutableLiveData<List<Record>>()
     val currentData : LiveData<List<Record>>
         get() = _currentData
@@ -52,7 +51,4 @@ class RecordViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-//    fun searchDatabase(searchQuery: String): LiveData<List<Memo>> {
-//        return repository.searchDatabase(searchQuery).asLiveData()
-//    }
 }

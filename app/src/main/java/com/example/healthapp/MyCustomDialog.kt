@@ -13,7 +13,6 @@ import com.example.healthapp.R
 
 class MyCustomDialog(context : Context, myInterface: MyCustomDialogInterface) : Dialog(context) {
 
-    // 액티비티에서 인터페이스를 받아옴
     private var myCustomDialogInterface: MyCustomDialogInterface = myInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,28 +21,23 @@ class MyCustomDialog(context : Context, myInterface: MyCustomDialogInterface) : 
 
         var okButton : Button = findViewById(R.id.okButton)
         var cancelButton : Button = findViewById(R.id.cancelButton)
-        var memoEditView : EditText = findViewById(R.id.memoEditView)
+        var recordEditView : EditText = findViewById(R.id.recordEditView)
 
-        // 배경 투명하게 바꿔줌
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         okButton.setOnClickListener {
-            val content = memoEditView.text.toString()
+            val content = recordEditView.text.toString()
 
-            // 입력하지 않았을 때
             if ( TextUtils.isEmpty(content)){
-                Toast.makeText(context, "메모를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "기록하세요", Toast.LENGTH_SHORT).show()
             }
 
-            // 입력 창이 비어 있지 않을 때
             else{
-                // 메모를 추가해줌
                 myCustomDialogInterface.onOkButtonClicked(content)
                 dismiss()
             }
         }
 
-        // 취소 버튼 클릭 시 종료
         cancelButton.setOnClickListener { dismiss()}
     }
 }

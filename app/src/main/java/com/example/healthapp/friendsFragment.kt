@@ -84,6 +84,8 @@ class friendsFragment : Fragment() {
 
         })
 
+        cursor.close()
+
     }
 
 }

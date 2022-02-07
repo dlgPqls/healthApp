@@ -2,7 +2,6 @@ package com.example.healthapp
 
 import android.content.Context
 import android.content.Intent
-import android.location.GnssAntennaInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

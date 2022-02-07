@@ -1,5 +1,7 @@
 package com.example.healthapp
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,25 +11,43 @@ import androidx.recyclerview.widget.RecyclerView
 
 class profileAdapter(val profileList: ArrayList<profiles>) : RecyclerView.Adapter<profileAdapter.CustomViewHolder>(){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): profileAdapter.CustomViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false)
-        return CustomViewHolder(view)
+    private lateinit var mListener: onItemClickListener
+
+    interface onItemClickListener{
+        fun onItemClilck(position: Int)
     }
 
-    override fun onBindViewHolder(holder: profileAdapter.CustomViewHolder, position: Int) {
-        holder.name.text = profileList.get(position).name
-        holder.water.text = profileList.get(position).water.toString()+"%"
-        holder.work.text = profileList.get(position).work.toString()+"%"
+    fun setOnItemClickListener(listener: onItemClickListener){
+        mListener = listener
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): profileAdapter.CustomViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false)
+        return CustomViewHolder(view,mListener)
     }
 
     override fun getItemCount(): Int {
         return profileList.size
     }
 
-    class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun onBindViewHolder(holder: profileAdapter.CustomViewHolder, position: Int) {
+        holder.name.text = profileList.get(position).name
+
+        holder.water.text = (profileList.get(position).water.toDouble() / profileList.get(position).objWater.toDouble() * 100.0).toInt().toString()+"%"
+        holder.work.text = (profileList.get(position).work.toDouble() / profileList.get(position).objWork.toDouble() * 100.0).toInt().toString()+"%"
+
+    }
+
+    class CustomViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.tv_name)
         val water = itemView.findViewById<TextView>(R.id.tv_water)
         val work = itemView.findViewById<TextView>(R.id.tv_work)
-    }
 
+        init{
+            itemView.setOnClickListener {
+                listener.onItemClilck(adapterPosition)
+            }
+        }
+
+    }
 }

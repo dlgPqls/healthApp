@@ -16,11 +16,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/memoEditView"
+            android:id="@+id/recordEditView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="메모"
+            android:hint="기록"
             android:textSize="16sp"
             android:layout_margin="5dp"
             app:layout_constraintBottom_toBottomOf="parent"

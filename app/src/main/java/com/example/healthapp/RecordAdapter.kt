@@ -3,51 +3,51 @@ package com.example.healthapp
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.healthapp.Memo
+import com.example.healthapp.Record
 import com.example.healthapp.UpdateDialog
 import com.example.healthapp.UpdateDialogInterface
-import com.example.healthapp.MemoViewModel
+import com.example.healthapp.RecordViewModel
 import com.example.healthapp.databinding.RecordItemBinding
 
-class RecordAdapter(private val memoViewModel: MemoViewModel) : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
+class RecordAdapter(private val recordViewModel: RecordViewModel) : RecyclerView.Adapter<RecordAdapter.MyViewHolder>() {
 
-    private var memoList = emptyList<Memo>()
+    private var recordList = emptyList<Record>()
 
     // 뷰 홀더에 데이터를 바인딩
     class MyViewHolder(private val binding: RecordItemBinding) : RecyclerView.ViewHolder(binding.root),
         UpdateDialogInterface{
-        lateinit var memo : Memo
-        lateinit var memoViewModel: MemoViewModel
+        lateinit var record : Record
+        lateinit var recordViewModel: RecordViewModel
 
-        fun bind(currentMemo : Memo, memoViewModel: MemoViewModel){
-            binding.memo = currentMemo
-            this.memoViewModel = memoViewModel
+        fun bind(currentRecord : Record, recordViewModel: RecordViewModel){
+            binding.record = currentRecord
+            this.recordViewModel = recordViewModel
 
             // 체크 리스너 초기화 해줘 중복 오류 방지
-            binding.memoCheckBox.setOnCheckedChangeListener(null)
+            binding.recordCheckBox.setOnCheckedChangeListener(null)
 
             // 메모 체크 시 체크 데이터 업데이트
-            binding.memoCheckBox.setOnCheckedChangeListener { _, check ->
+            binding.recordCheckBox.setOnCheckedChangeListener { _, check ->
                 if (check) {
-                    memo = Memo(currentMemo.id, true, currentMemo.content,
-                        currentMemo.year, currentMemo.month, currentMemo.day)
-                    this.memoViewModel.updateMemo(memo)
+                    record = Record(currentRecord.id, true, currentRecord.content,
+                        currentRecord.year, currentRecord.month, currentRecord.day)
+                    this.recordViewModel.updateRecord(record)
                 }
                 else {
-                    memo = Memo(currentMemo.id, false, currentMemo.content,
-                        currentMemo.year, currentMemo.month, currentMemo.day)
-                    this.memoViewModel.updateMemo(memo)
+                    record = Record(currentRecord.id, false, currentRecord.content,
+                        currentRecord.year, currentRecord.month, currentRecord.day)
+                    this.recordViewModel.updateRecord(record)
                 }
             }
 
             // 삭제 버튼 클릭 시 메모 삭제
             binding.deleteButton.setOnClickListener {
-                memoViewModel.deleteMemo(currentMemo)
+                recordViewModel.deleteRecord(currentRecord)
             }
 
             // 수정 버튼 클릭 시 다이얼로그 띄움
             binding.updateButton.setOnClickListener {
-                memo = currentMemo
+                record = currentRecord
                 val myCustomDialog = UpdateDialog(binding.updateButton.context,this)
                 myCustomDialog.show()
             }
@@ -55,8 +55,8 @@ class RecordAdapter(private val memoViewModel: MemoViewModel) : RecyclerView.Ada
 
         // 다이얼로그의 결과값으로 업데이트 해줌
         override fun onOkButtonClicked(content: String) {
-            val updateMemo = Memo(memo.id,memo.check,content,memo.year,memo.month,memo.day)
-            memoViewModel.updateMemo(updateMemo)
+            val updateRecord = Record(record.id,record.check,content,record.year,record.month,record.day)
+            recordViewModel.updateRecord(updateRecord)
         }
     }
 
@@ -68,17 +68,17 @@ class RecordAdapter(private val memoViewModel: MemoViewModel) : RecyclerView.Ada
 
     // 바인딩 함수로 넘겨줌
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(memoList[position],memoViewModel)
+        holder.bind(recordList[position],recordViewModel)
     }
 
     // 뷰 홀더의 개수 리턴
     override fun getItemCount(): Int {
-        return memoList.size
+        return recordList.size
     }
 
     // 메모 리스트 갱신
-    fun setData(memo : List<Memo>){
-        memoList = memo
+    fun setData(record : List<Record>){
+        recordList = record
         notifyDataSetChanged()
     }
 

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="memo"
-            type="com.example.healthapp.Memo" />
+            type="com.example.healthapp.Record" />
     </data>
 
     <LinearLayout
@@ -21,11 +21,11 @@
             android:layout_height="match_parent">
 
             <CheckBox
-                android:id="@+id/memoCheckBox"
+                android:id="@+id/recordCheckBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:checked="@{memo.check}"
-                android:text="@{memo.content}"
+                android:checked="@{record.check}"
+                android:text="@{record.content}"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="@{@string/date_format(memo.year,memo.month,memo.day)}"
+                android:text="@{@string/date_format(record.year,record.month,record.day)}"
                 android:layout_margin="4dp" />
         </LinearLayout>
     </LinearLayout>

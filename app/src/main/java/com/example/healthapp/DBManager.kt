@@ -1,6 +1,5 @@
 package com.example.healthapp
 
-import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -15,7 +14,7 @@ class DBManager(context: Context?, name: String?, factory: SQLiteDatabase.Cursor
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
 
     }
-}
 
+}
 
 

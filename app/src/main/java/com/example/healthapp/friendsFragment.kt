@@ -55,7 +55,7 @@ class friendsFragment : Fragment() {
             name = cursor.getString(0).toString()
             objWater = cursor.getInt(3)
             objWork = cursor.getInt(2)
-            subCursor = subDatabase.rawQuery("SELECT * FROM subTBL WHERE NAME = '" + id + "';",null)
+            subCursor = subDatabase.rawQuery("SELECT * FROM subTBL WHERE NAME = '" + name + "';",null)
             water = subCursor.getInt(3)
             work = subCursor.getInt(2)
             profilList.add(profiles(name,water, work,objWork,objWater))
